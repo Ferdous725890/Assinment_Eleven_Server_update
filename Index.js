@@ -109,14 +109,33 @@ app.put(`/my_car_page_update/:id`, async(req, res ) =>{
 
 // -------------------------------Booking Collection Work --------------------------------
 
-app.post("/booking/:id",async (req, res) =>{
+app.post("/booking",async (req, res) =>{
   const booking = req.body
   const result = await bookingCollection.insertOne(booking)
-  req.send(result)
+  res.send(result)
   
 })
 
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//booking cancle
+// Car Deleted 
+app.delete(`/booking_cancel/:id`, async(req, res)=>{
+  const id = req.params.id
+  console.log(id);
+  const query = {_id: new ObjectId (id)}
+  const result = await bookingCollection.deleteOne(query)
+  res.send(result)
+})
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+app.get(`/booking/:email`,async (req, res)=>{
+  const email = req.params.email
+  const query = {email}
+  const result = await bookingCollection.find(query).toArray()
+  res.send(result)
+})
 
 
 
@@ -154,3 +173,7 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Server Is Running Is Prot ${port}`);
 });
+
+
+
+
