@@ -6,10 +6,16 @@ const app = express();
 // !                password:Assinment_Eleven
 // !                password:Assinment_Eleven
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://loginfrom-525ec.web.app",
+    "https://loginfrom-525ec.firebaseapp.com"
+  ],
+  credentials:true
+}));
 app.use(express.json());
 
-// ! Mongodb File
 
 const uri = "mongodb+srv://Assinment_Eleven:Assinment_Eleven@cluster0.frskr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -65,12 +71,47 @@ app.delete(`/my_car_page/:id`, async(req, res)=>{
   res.send(result)
 })
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Find all car
-app.get('/added_car/available_car',async(req, res)=>{
-      const car = req.body
-      const result = await carCollection.find(car).toArray()
-      res.send(result)
+app.get("/added_car/available_car", async(req, res)=>{
+  const data = req.body
+  const result = await carCollection.find(data).toArray()
+  res.send(result)
 })
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Find all car
+app.get('/added_car/available_car/latest', async (req, res) => {
+
+    const result = await carCollection
+      .find({ availability: "Available" }) // Only find available cars
+      .sort({ addedDate: -1 }) // Sort by addedDate in descending order
+      .limit(6) // Get the latest car
+      .toArray(); // Convert to array
+
+    res.send(result);
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+;
+
+
+
+
+
+
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Find all car 
 app.get('/detailsPage/:id',async(req, res)=>{
@@ -153,9 +194,9 @@ app.get(`/booking/:email`,async (req, res)=>{
 
 
 
-    // // Connect the client to the server	(optional starting in v4.7)
+    // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
-    // // Send a ping to confirm a successful connection
+    // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
