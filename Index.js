@@ -180,16 +180,16 @@ app.get(`/booking/date/:id`,async (req, res)=>{
 })
 
   
-app.put('/booking/edit/:id', async (req, res) => {
-  const id = req.params.id;
-  const formattedDate = req.body;
-  const filter = { _id: new ObjectId(id) };
-  const updateDoc = {
-    $set: formattedDate,
-  };
-  const result = await bookingCollection.updateOne(filter, updateDoc);
-  res.send(result);
-});
+// app.put('/booking/edit/:id', async (req, res) => {
+//   const id = req.params.id;
+//   const formattedDate = req.body;
+//   const filter = { _id: new ObjectId(id) };
+//   const updateDoc = {
+//     $set: formattedDate,
+//   };
+//   const result = await bookingCollection.updateOne(filter, updateDoc);
+//   res.send(result);
+// });
 
 
 
