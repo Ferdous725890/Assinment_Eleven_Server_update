@@ -145,6 +145,7 @@ app.put(`/my_car_page_update/:id`, async(req, res ) =>{
 
 
 // =====================================================================================
+
 // =====================================================================================
 // =====================================================================================
 
@@ -170,6 +171,30 @@ app.delete(`/booking_cancel/:id`, async(req, res)=>{
 })
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+app.get(`/booking/date/:id`,async (req, res)=>{
+  const id = req.params.id
+  const query = {_id: new ObjectId (id)}
+  const result = await bookingCollection.find(query).toArray()
+  res.send(result)
+})
+
+  
+app.put('/booking/edit/:id', async (req, res) => {
+  const id = req.params.id;
+  const formattedDate = req.body;
+  const filter = { _id: new ObjectId(id) };
+  const updateDoc = {
+    $set: formattedDate,
+  };
+  const result = await bookingCollection.updateOne(filter, updateDoc);
+  res.send(result);
+});
+
+
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 app.get(`/booking/:email`,async (req, res)=>{
   const email = req.params.email
